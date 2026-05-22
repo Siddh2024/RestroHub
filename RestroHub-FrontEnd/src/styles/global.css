@@ -331,3 +331,15 @@ input[type="password"]::-ms-clear {
 .dark .admin-content .text-gray-500 {
     color: rgb(209 213 219) !important; /* gray-300 */
 }
+
+/* ============================================
+   DARK MODE — remove all shadows
+   Light/colored shadows (blue-200, blue-300, …)
+   look like white glows on dark backgrounds.
+   Black shadows are invisible on dark surfaces.
+   Removing all keeps the UI clean in dark mode.
+   ============================================ */
+
+.dark * {
+    box-shadow: none !important;
+}

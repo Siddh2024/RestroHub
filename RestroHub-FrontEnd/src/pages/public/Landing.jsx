@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@context/ThemeContext';
 import {
@@ -28,11 +28,22 @@ const Landing = () => {
   // show scroll top 
   const [showScrollTop, setShowScrollTop] = useState(false);
 
+  // how-it-works scroll progress (0–1)
+  const howRef = useRef(null);
+  const [progress, setProgress] = useState(0);
+
   useEffect(() => {
-    const onScroll = () => setShowScrollTop(window.scrollY > 400);
+    const onScroll = () => {
+      if (!howRef.current) return;
+      const rect = howRef.current.getBoundingClientRect();
+      const sectionH = rect.height;
+      const windowH = window.innerHeight;
+      const scrolled = windowH - rect.top;
+      const p = Math.min(1, Math.max(0, scrolled / (sectionH + windowH)));
+      setProgress(p);
+    };
     window.addEventListener('scroll', onScroll);
     onScroll();
-
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -512,7 +523,7 @@ const [contactForm, setContactForm] = useState({
       {/* ================================================ */}
       {/* HOW IT WORKS                                     */}
       {/* ================================================ */}
-      <section id="how-it-works" className="bg-slate-50 py-20 dark:bg-slate-800 sm:py-28">
+      <section id="how-it-works" ref={howRef} className="bg-slate-50 py-20 dark:bg-slate-800 sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <span className="mb-3 inline-block rounded-full bg-blue-50 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
@@ -523,25 +534,47 @@ const [contactForm, setContactForm] = useState({
             </h2>
           </div>
 
-          <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {steps.map((step, i) => (
-              <div key={i} className="relative text-center">
-                {/* Connector */}
-                {i < steps.length - 1 && (
-                  <div className="absolute right-0 top-10 hidden h-0.5 w-full -translate-x-1/2 bg-blue-200 lg:block" />
-                )}
+          <div className="relative mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Single continuous progress track behind all steps */}
+            <div className="pointer-events-none absolute inset-x-0 top-10 hidden h-0.5 md:block">
+              <div className="h-full rounded-full bg-blue-200/30" />
+              <div
+                className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 transition-all duration-300 ease-out"
+                style={{ width: `${progress * 100}%` }}
+              />
+            </div>
 
-                <div className="relative mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border-4 border-blue-100 bg-white shadow-md dark:border-blue-800 dark:bg-slate-700">
-                  <step.icon className="h-8 w-8 text-blue-600" />
-                  <span className="absolute -right-1 -top-1 flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white shadow-sm">
+            {steps.map((step, i) => {
+              const stepPos = i / (steps.length - 1);
+              const active = progress > stepPos - 0.08;
+              return (
+              <div key={i} className="relative text-center">
+                <div
+                  className={`relative mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border-4 bg-white shadow-md transition-all duration-500 dark:bg-slate-700 ${
+                    active
+                      ? 'border-blue-500 shadow-lg shadow-blue-500/20 scale-110'
+                      : 'border-blue-100 dark:border-blue-800'
+                  }`}
+                >
+                  <step.icon className={`h-8 w-8 transition-colors duration-500 ${active ? 'text-blue-600' : 'text-blue-400'}`} />
+                  <span
+                    className={`absolute -right-1 -top-1 flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white shadow-sm transition-all duration-500 ${
+                      active ? 'bg-blue-600 scale-110 shadow-md' : 'bg-blue-500'
+                    }`}
+                  >
                     {step.num}
                   </span>
                 </div>
 
-                <h3 className="mb-2 text-lg font-bold text-slate-900 dark:text-white">{step.title}</h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400">{step.desc}</p>
+                <h3 className={`mb-2 text-lg font-bold transition-colors duration-500 ${active ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-500'}`}>
+                  {step.title}
+                </h3>
+                <p className={`text-sm transition-colors duration-500 ${active ? 'text-slate-600 dark:text-slate-300' : 'text-slate-400 dark:text-slate-600'}`}>
+                  {step.desc}
+                </p>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
