@@ -301,8 +301,100 @@ select.input option {
 }
 
 /* ============================================
-   PASSWORD INPUT — hide browser native eye icon
+   DARK MODE — Tailwind utility overrides
+   Applied when <html> has class "dark" or "admin-dark"
+   Makes shadows visible on dark backgrounds and
+   adds subtle borders for element separation.
    ============================================ */
+
+.dark .shadow-sm,
+.admin-dark .shadow-sm {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+}
+
+.dark .shadow-md,
+.admin-dark .shadow-md {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+}
+
+.dark .shadow-lg,
+.admin-dark .shadow-lg {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+}
+
+.dark .shadow-xl,
+.admin-dark .shadow-xl,
+.dark .shadow-2xl,
+.admin-dark .shadow-2xl {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Low-contrast borders for card/container separation in dark mode */
+.dark .border-gray-700,
+.admin-dark .border-gray-700 {
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.dark .border-gray-600,
+.admin-dark .border-gray-600 {
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.dark .border-gray-200,
+.admin-dark .border-gray-200 {
+    border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Refined hover transitions for dark mode cards */
+.dark .hover\:bg-gray-700:hover,
+.admin-dark .hover\:bg-gray-700:hover {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    transition: background-color 200ms ease;
+}
+
+.dark button,
+.admin-dark button,
+.dark a,
+.admin-dark a {
+    transition: all 200ms ease;
+}
+
+/* Subtle background elevation for structural depth in dark mode */
+.dark .bg-gray-800,
+.admin-dark .bg-gray-800 {
+    background-color: #1e1e1e !important;
+}
+
+.dark .bg-gray-850,
+.admin-dark .bg-gray-850 {
+    background-color: #1a1a1a !important;
+}
+
+/* ============================================
+   LIGHT MODE CARD TOKENS (customer website)
+   ============================================ */
+
+[data-site-theme="light"] {
+    --shadow-card: 0 4px 6px rgba(0, 0, 0, 0.08);
+    --shadow-card-hover: 0 8px 16px rgba(0, 0, 0, 0.12);
+    --border-card: 1px solid rgba(0, 0, 0, 0.06);
+    --border-card-hover: 1px solid rgba(0, 0, 0, 0.12);
+    --bg-elevated: #ffffff;
+    --bg-elevated-hover: #f9fafb;
+}
+
+[data-site-theme="dark"] {
+    --shadow-card: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --shadow-card-hover: 0 8px 16px rgba(0, 0, 0, 0.4);
+    --border-card: 1px solid rgba(255, 255, 255, 0.08);
+    --border-card-hover: 1px solid rgba(255, 255, 255, 0.14);
+    --bg-elevated: #1e1e1e;
+    --bg-elevated-hover: #252525;
+}
+
+/* ============================================
+   PASSWORD INPUT — hide browser native eye icon
+    ============================================ */
 
 /* Edge */
 input[type="password"]::-ms-reveal,

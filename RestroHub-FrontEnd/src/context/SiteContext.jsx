@@ -56,6 +56,12 @@ export const SiteProvider = ({ children }) => {
             overlayDark:      '--color-overlay-dark',
             overlayDarker:    '--color-overlay-darker',
             overlayLight:     '--color-overlay-light',
+            shadowCard:       '--shadow-card',
+            shadowCardHover:  '--shadow-card-hover',
+            borderCard:       '--border-card',
+            borderCardHover:  '--border-card-hover',
+            bgElevated:       '--bg-elevated',
+            bgElevatedHover:  '--bg-elevated-hover',
         };
 
         Object.entries(themeMapping).forEach(([key, cssVar]) => {
@@ -102,12 +108,18 @@ export const SiteProvider = ({ children }) => {
             bgCard: '#1a1a1a', borderPrimary: '#374151', borderSecondary: '#1f2937',
             textPrimary: '#ffffff', textSecondary: '#9ca3af', textMuted: '#6b7280',
             overlayDark: 'rgba(0,0,0,0.5)', overlayDarker: 'rgba(0,0,0,0.6)', overlayLight: 'rgba(0,0,0,0.2)',
+            shadowCard: '0 4px 6px rgba(0,0,0,0.3)', shadowCardHover: '0 8px 16px rgba(0,0,0,0.4)',
+            borderCard: '1px solid rgba(255,255,255,0.08)', borderCardHover: '1px solid rgba(255,255,255,0.14)',
+            bgElevated: '#1e1e1e', bgElevatedHover: '#252525',
         };
         const LIGHT_BG = {
             bgPrimary: '#ffffff', bgSecondary: '#f9fafb', bgTertiary: '#f3f4f6',
             bgCard: '#ffffff', borderPrimary: '#d1d5db', borderSecondary: '#e5e7eb',
             textPrimary: '#111827', textSecondary: '#374151', textMuted: '#6b7280',
             overlayDark: 'rgba(0,0,0,0.3)', overlayDarker: 'rgba(0,0,0,0.4)', overlayLight: 'rgba(0,0,0,0.1)',
+            shadowCard: '0 4px 6px rgba(0,0,0,0.08)', shadowCardHover: '0 8px 16px rgba(0,0,0,0.12)',
+            borderCard: '1px solid rgba(0,0,0,0.06)', borderCardHover: '1px solid rgba(0,0,0,0.12)',
+            bgElevated: '#ffffff', bgElevatedHover: '#f9fafb',
         };
 
         const applySavedConfig = () => {
